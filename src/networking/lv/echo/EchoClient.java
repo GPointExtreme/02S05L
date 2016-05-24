@@ -30,6 +30,7 @@ public class EchoClient {
 						bw.write(line);
 						bw.newLine();
 						bw.flush();
+						
 						System.out.println(br2.readLine());
 					}
 				}

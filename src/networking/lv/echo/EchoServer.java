@@ -23,11 +23,17 @@ public class EchoServer {
 					BufferedWriter bw = new BufferedWriter(osw);
 					) {
 						int i = 0;
-						while(i < 3) {
-							bw.write(br.readLine());
-							bw.newLine();
-							bw.flush();
-							i++;
+						String line;
+						while((line=br.readLine()) != null) {
+							if(i < 3) {
+								bw.write(line);
+								bw.newLine();
+								bw.flush();
+								i++;
+							}
+							else {
+								break;
+							}
 						}
 						
 				}
