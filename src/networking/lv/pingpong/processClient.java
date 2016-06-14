@@ -10,41 +10,47 @@ import java.net.Socket;
 public class processClient implements Runnable{
 	
 	private Socket client;
+	private boolean stop = true;
 
 	public processClient(Socket client) {
 		super();
 		this.client = client;
 	}
+	
+	public void stopServer() {
+		this.stop = false;
+	}
 
 	@Override
 	public void run() {
-		try (
-			InputStreamReader isr = new InputStreamReader(client.getInputStream());
-			BufferedReader br = new BufferedReader(isr);
-			OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
-			BufferedWriter bw = new BufferedWriter(osw);
-			) {
-				String line;
-				while((line = br.readLine()) != null) {
-					if(line.equals("ping")) {
-						bw.write("pong" + "\n");
+		while(stop == true) {
+			try (
+				InputStreamReader isr = new InputStreamReader(client.getInputStream());
+				BufferedReader br = new BufferedReader(isr);
+				OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
+				BufferedWriter bw = new BufferedWriter(osw);
+				) {
+					String line;
+					while((line = br.readLine()) != null) {
+						if(line.equals("ping")) {
+							bw.write("pong" + "\n");
+						}
+						else if(line.equals("pong")) {
+							bw.write("ping" + "\n");
+						}
+						else if(line.equals("exit") || stop == false) {
+							bw.write("connection closed" + "\n");
+							break;
+						}
+						else {
+							bw.write("error" + "\n");
+						}
+						bw.flush();
 					}
-					else if(line.equals("pong")) {
-						bw.write("ping" + "\n");
-					}
-					else if(line.equals("exit")) {
-						bw.write("connection closed" + "\n");
-						break;
-					}
-					else {
-						bw.write("error" + "\n");
-					}
-					bw.flush();
+				} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 				}
-			} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-			}
+		}
 	}
-
 }
