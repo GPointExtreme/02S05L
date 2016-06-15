@@ -19,20 +19,15 @@ public class PingPongServer {
 					Thread t = new Thread(pc);
 					t.start();
 					
+					
+					/*
 					Scanner scanner = new Scanner(System.in);
 					scanner.nextLine();
 					
 					pc.stopServer();
-					System.out.println("Server stopped");
+					System.out.println("Server shuting down");
 					scanner.close();
-					
-					try {
-						t.join();
-						break;
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					*/
 				}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -14,9 +14,10 @@ public class EchoServer {
 		try (
 			ServerSocket server = new ServerSocket(2222);
 			) {
-			Socket client = server.accept();
-			
-			try (
+			while(true) {
+				Socket client = server.accept();
+				
+				try (
 					InputStreamReader isr = new InputStreamReader(client.getInputStream());
 					BufferedReader br = new BufferedReader(isr);
 					OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
@@ -34,10 +35,9 @@ public class EchoServer {
 							else {
 								break;
 							}
-						}
-						
-				}
-			
+						}					
+					}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
