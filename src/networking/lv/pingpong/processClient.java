@@ -10,7 +10,7 @@ import java.net.Socket;
 public class processClient implements Runnable{
 	
 	private Socket client;
-	private boolean stop = true;
+	private boolean stop;
 	private Object lock = new Object();
 
 	public processClient(Socket client) {
@@ -18,14 +18,19 @@ public class processClient implements Runnable{
 		this.client = client;
 	}
 	
-	public void stopServer() {
-		this.stop = false;
+	public void stopClient() {
+		this.stop = true;
+		try {
+			client.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void run() {
 		synchronized(lock) {
-			while(stop == true) {
 				try (
 					InputStreamReader isr = new InputStreamReader(client.getInputStream());
 					BufferedReader br = new BufferedReader(isr);
@@ -33,7 +38,7 @@ public class processClient implements Runnable{
 					BufferedWriter bw = new BufferedWriter(osw);
 					) {
 						String line;
-						while((line = br.readLine()) != null) {
+						while(stop != true && (line = br.readLine()) != null) {
 							if(line.equals("ping")) {
 								bw.write("pong" + "\n");
 							}
@@ -53,7 +58,6 @@ public class processClient implements Runnable{
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 					}
-			}
 		}
 	}
 }
