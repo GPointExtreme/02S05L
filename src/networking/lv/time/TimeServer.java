@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 public class TimeServer {
 
 	public static void main(String[] args) {
-		try {
+		try (
 			ServerSocket server = new ServerSocket(1111);
-			
-			for (int i = 1; i < 3; i++) {
+			) {
+			for (int i = 1; i <= 3; i++) {
 			Socket client = server.accept();
 
 				try (

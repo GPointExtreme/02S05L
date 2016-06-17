@@ -10,9 +10,9 @@ import java.net.Socket;
 public class EchoClient {
 
 	public static void main(String[] args) {
-		try {
+		try (
 			Socket client = new Socket("127.0.0.1", 2222);
-		
+			) {
 			try (
 				OutputStreamWriter osw = new OutputStreamWriter(client.getOutputStream());
 				BufferedWriter bw = new BufferedWriter(osw);
