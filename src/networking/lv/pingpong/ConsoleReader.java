@@ -28,6 +28,7 @@ public class ConsoleReader implements Runnable{
 		}
 		try {
 			socket.close();
+			sc.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

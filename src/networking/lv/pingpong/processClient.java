@@ -45,7 +45,7 @@ public class processClient implements Runnable{
 							else if(line.equals("pong")) {
 								bw.write("ping" + "\n");
 							}
-							else if(line.equals("exit") || stop == false) {
+							else if(line.equals("exit")) {
 								bw.write("connection closed" + "\n");
 								break;
 							}
